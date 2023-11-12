@@ -1,0 +1,277 @@
+diff -rup a/external/upstream/ambit/CMakeLists.txt b/external/upstream/ambit/CMakeLists.txt
+--- a/external/upstream/ambit/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/ambit/CMakeLists.txt	2023-04-07 11:57:00.471521220 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_ambit})
+-    find_package(ambit 0.6 CONFIG QUIET)
++#    find_package(ambit 0.6 CONFIG QUIET)
+ 
+-    if(${ambit_FOUND})
++    if(0)
+         get_property(_loc TARGET ambit::ambit PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found ambit${ColourReset}: ${_loc} (found version ${ambit_VERSION})")
+         add_library(ambit_external INTERFACE)  # dummy
+diff -rup a/external/upstream/brianqc/CMakeLists.txt b/external/upstream/brianqc/CMakeLists.txt
+--- a/external/upstream/brianqc/CMakeLists.txt	2023-04-03 22:25:28.000000000 +0900
++++ b/external/upstream/brianqc/CMakeLists.txt	2023-04-07 11:55:28.214050598 +0900
+@@ -1,6 +1,6 @@
+-find_package(BrianQC 1.1 CONFIG QUIET)
++#find_package(BrianQC 1.1 CONFIG QUIET)
+ 
+-if(${BrianQC_FOUND})
++if(0)
+     get_property(_loc TARGET BrianQC::static_wrapper PROPERTY LOCATION)
+     message(STATUS "${Cyan}Found BrianQC${ColourReset}: ${_loc} (found version ${BrianQC_VERSION})")
+     
+diff -rup a/external/upstream/chemps2/CMakeLists.txt b/external/upstream/chemps2/CMakeLists.txt
+--- a/external/upstream/chemps2/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/chemps2/CMakeLists.txt	2023-04-07 11:57:19.039615930 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_CheMPS2})
+-    find_package(CheMPS2 1.8.7 CONFIG QUIET)
++#    find_package(CheMPS2 1.8.7 CONFIG QUIET)
+ 
+-    if(${CheMPS2_FOUND})
++    if(0)
+         get_property(_loc TARGET CheMPS2::chemps2 PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found CheMPS2${ColourReset}: ${_loc} (found version ${CheMPS2_VERSION})")
+         add_library(chemps2_external INTERFACE)  # dummy
+diff -rup a/external/upstream/dkh/CMakeLists.txt b/external/upstream/dkh/CMakeLists.txt
+--- a/external/upstream/dkh/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/dkh/CMakeLists.txt	2023-04-07 11:56:26.532348100 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_dkh})
+-    find_package(dkh 1.2 CONFIG QUIET)
++#    find_package(dkh 1.2 CONFIG QUIET)
+ 
+-    if(${dkh_FOUND})
++    if(0)
+         get_property(_loc TARGET dkh::dkh PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found dkh${ColourReset}: ${_loc} (found version ${dkh_VERSION})")
+         add_library(dkh_external INTERFACE)  # dummy
+diff -rup a/external/upstream/ecpint/CMakeLists.txt b/external/upstream/ecpint/CMakeLists.txt
+--- a/external/upstream/ecpint/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/ecpint/CMakeLists.txt	2023-04-07 11:56:32.744379788 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_ecpint})
+-    find_package(ecpint 1.0.7 CONFIG QUIET)
++#    find_package(ecpint 1.0.7 CONFIG QUIET)
+ 
+-    if(${ecpint_FOUND})
++    if(0)
+         get_property(_loc TARGET ECPINT::ecpint PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found ecpint${ColourReset}: ${_loc} (found version ${ecpint_VERSION})")
+         add_library(ecpint_external INTERFACE)  # dummy
+diff -rup a/external/upstream/erd/CMakeLists.txt b/external/upstream/erd/CMakeLists.txt
+--- a/external/upstream/erd/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/erd/CMakeLists.txt	2023-04-07 11:56:40.124417431 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_erd})
+-    find_package(erd 3.0.6 CONFIG QUIET)
++#    find_package(erd 3.0.6 CONFIG QUIET)
+ 
+-    if(${erd_FOUND})
++    if(0)
+         get_property(_loc TARGET erd::erd PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found erd${ColourReset}: ${_loc} (found version ${erd_VERSION})")
+         add_library(erd_external INTERFACE)  # dummy
+diff -rup a/external/upstream/gau2grid/CMakeLists.txt b/external/upstream/gau2grid/CMakeLists.txt
+--- a/external/upstream/gau2grid/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/gau2grid/CMakeLists.txt	2023-04-07 11:56:45.823446502 +0900
+@@ -1,6 +1,6 @@
+-find_package(gau2grid 2.0 CONFIG QUIET)
++#find_package(gau2grid 2.0 CONFIG QUIET)
+ 
+-if(${gau2grid_FOUND})
++if(0)
+     get_property(_loc TARGET gau2grid::gg PROPERTY LOCATION)
+     message(STATUS "${Cyan}Found gau2grid${ColourReset}: ${_loc} (found version ${gau2grid_VERSION})")
+     add_library(gau2grid_external INTERFACE)  # dummy
+diff -rup a/external/upstream/gdma/CMakeLists.txt b/external/upstream/gdma/CMakeLists.txt
+--- a/external/upstream/gdma/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/gdma/CMakeLists.txt	2023-04-07 11:56:51.427475087 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_gdma})
+-    find_package(gdma 2.3.3 CONFIG QUIET COMPONENTS Python)
++#    find_package(gdma 2.3.3 CONFIG QUIET COMPONENTS Python)
+ 
+-    if(${gdma_FOUND})
++    if(0)
+         get_property(_loc TARGET gdma::pygdma PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found gdma${ColourReset}: ${_loc} (found version ${gdma_VERSION})")
+         add_library(gdma_external INTERFACE)  # dummy
+diff -rup a/external/upstream/gtfock/CMakeLists.txt b/external/upstream/gtfock/CMakeLists.txt
+--- a/external/upstream/gtfock/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/gtfock/CMakeLists.txt	2023-04-07 11:57:38.057712937 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_GTFock})
+-    find_package(GTFock CONFIG QUIET)
++#    find_package(GTFock CONFIG QUIET)
+ 
+-    if(${GTFock_FOUND})
++    if(0)
+         get_property(_loc TARGET GTFock::gtfock PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found GTFock${ColourReset}: ${_loc} (found version ${GTFock_VERSION})")
+         message(FATAL_ERROR "GTFock has not been hooked back in after the inversion.")
+diff -rup a/external/upstream/libefp/CMakeLists.txt b/external/upstream/libefp/CMakeLists.txt
+--- a/external/upstream/libefp/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/libefp/CMakeLists.txt	2023-04-07 11:57:42.523735718 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_libefp})
+-    find_package(libefp 1.5.0 CONFIG QUIET COMPONENTS shallow)
++#    find_package(libefp 1.5.0 CONFIG QUIET COMPONENTS shallow)
+ 
+-    if(${libefp_FOUND})
++    if(0)
+         get_property(_loc TARGET libefp::efp PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found libefp${ColourReset}: ${_loc} (found version ${libefp_VERSION})")
+         add_library(libefp_external INTERFACE)  # dummy
+diff -rup a/external/upstream/libint/CMakeLists.txt b/external/upstream/libint/CMakeLists.txt
+--- a/external/upstream/libint/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/libint/CMakeLists.txt	2023-04-07 11:57:47.305760110 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_Libint1t})
+-find_package(Libint 1.2.0 CONFIG QUIET COMPONENTS ${MAX_AM_ERI})
++#find_package(Libint 1.2.0 CONFIG QUIET COMPONENTS ${MAX_AM_ERI})
+ 
+-if(${Libint_FOUND})
++if(0)
+     get_property(_loc TARGET Libint::int PROPERTY LOCATION)
+     message(STATUS "${Cyan}Found Libint ${Libint_MAX_AM_ERI}${ColourReset}: ${_loc} (found version ${Libint_VERSION})")
+     add_library(libint_external INTERFACE)  # dummy
+diff -rup a/external/upstream/libint2/CMakeLists.txt b/external/upstream/libint2/CMakeLists.txt
+--- a/external/upstream/libint2/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/libint2/CMakeLists.txt	2023-04-07 11:57:54.289795736 +0900
+@@ -31,22 +31,23 @@
+ # * Upon additions to the Libint2 API to allow runtime SHGAUSS switching, Psi4 can no longer be adapted to use a libtool+cmake source.
+ # * Libraries of different AM are not hot-swappable in a Psi4 build, but they only require a relinking.
+ 
+-find_package(
+-  Libint2
+-  2.7.2
+-  CONFIG
+-  COMPONENTS
+-    sss
+-    CXX_ho
+-    impure_sh
+-    "eri_c4_d0_l${MAX_AM_ERI}" eri_c3_d0_l4 eri_c2_d0_l4 onebody_d0_l4
+-     eri_c4_d1_l2              eri_c3_d1_l3 eri_c2_d1_l3 onebody_d1_l3
+-                                                         onebody_d2_l3
+-  OPTIONAL_COMPONENTS
+-     eri_c4_d2_l2              eri_c3_d2_l3 eri_c2_d2_l3
+-  )
++#find_package(
++#  Libint2
++#  2.7.2
++#  CONFIG
++#  COMPONENTS
++#    sss
++#    CXX_ho
++#    impure_sh
++#    "eri_c4_d0_l${MAX_AM_ERI}" eri_c3_d0_l4 eri_c2_d0_l4 onebody_d0_l4
++#     eri_c4_d1_l2              eri_c3_d1_l3 eri_c2_d1_l3 onebody_d1_l3
++#                                                         onebody_d2_l3
++#  OPTIONAL_COMPONENTS
++#     eri_c4_d2_l2              eri_c3_d2_l3 eri_c2_d2_l3
++#  )
+ 
+-if (TARGET Libint2::cxx)
++#if (TARGET Libint2::cxx)
++if (0)
+     get_target_property(_loc Libint2::int2 LOCATION)
+     get_target_property(Libint2_VERSION Libint2::int2 Libint2_VERSION)
+     get_target_property(Libint2_MAX_AM_ERI Libint2::int2 Libint2_MAX_AM_ERI)
+diff -rup a/external/upstream/libxc/CMakeLists.txt b/external/upstream/libxc/CMakeLists.txt
+--- a/external/upstream/libxc/CMakeLists.txt	2023-04-07 10:53:56.662065756 +0900
++++ b/external/upstream/libxc/CMakeLists.txt	2023-04-07 11:58:05.562853245 +0900
+@@ -1,10 +1,10 @@
+-find_package(Libxc 6.0.0 CONFIG QUIET COMPONENTS C)
+-if(NOT ${Libxc_FOUND})
+-    # LibxcConfig.cmake encodes searching only within major version, so need two calls to allow v5 or v6
+-    find_package(Libxc 5.1.2 CONFIG QUIET COMPONENTS C)
+-endif()
++#find_package(Libxc 6.0.0 CONFIG QUIET COMPONENTS C)
++#if(NOT ${Libxc_FOUND})
++#    # LibxcConfig.cmake encodes searching only within major version, so need two calls to allow v5 or v6
++#    find_package(Libxc 5.1.2 CONFIG QUIET COMPONENTS C)
++#endif()
+ 
+-if(${Libxc_FOUND})
++if(0)
+     get_property(_loc TARGET Libxc::xc PROPERTY LOCATION)
+     message(STATUS "${Cyan}Found Libxc${ColourReset}: ${_loc} (found version ${Libxc_VERSION})")
+     add_library(libxc_external INTERFACE)  # dummy
+diff -rup a/external/upstream/mdi/CMakeLists.txt b/external/upstream/mdi/CMakeLists.txt
+--- a/external/upstream/mdi/CMakeLists.txt	2023-04-07 10:53:56.663065762 +0900
++++ b/external/upstream/mdi/CMakeLists.txt	2023-04-07 11:58:13.353892991 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_mdi})
+-    find_package(mdi 1.2.3 CONFIG QUIET)
++#    find_package(mdi 1.2.3 CONFIG QUIET)
+ 
+-    if(${mdi_FOUND})
++    if(0)
+         get_property(_loc TARGET mdi::mdi PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found mdi${ColourReset}: ${_loc} (found version ${mdi_VERSION})")
+         add_library(mdi_external INTERFACE)  # dummy
+diff -rup a/external/upstream/pcmsolver/CMakeLists.txt b/external/upstream/pcmsolver/CMakeLists.txt
+--- a/external/upstream/pcmsolver/CMakeLists.txt	2023-04-07 10:53:56.663065762 +0900
++++ b/external/upstream/pcmsolver/CMakeLists.txt	2023-04-07 11:58:35.275004822 +0900
+@@ -1,7 +1,7 @@
+     if(${ENABLE_PCMSolver})
+-    find_package(PCMSolver 1.2.3 CONFIG QUIET)
++#    find_package(PCMSolver 1.2.3 CONFIG QUIET)
+ 
+-    if(${PCMSolver_FOUND})
++    if(0)
+         get_property(_loc TARGET PCMSolver::pcm PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found PCMSolver${ColourReset}: ${_loc} (found version ${PCMSolver_VERSION})")
+         add_library(pcmsolver_external INTERFACE)  # dummy
+diff -rup a/external/upstream/pybind11/CMakeLists.txt b/external/upstream/pybind11/CMakeLists.txt
+--- a/external/upstream/pybind11/CMakeLists.txt	2023-04-07 10:53:56.663065762 +0900
++++ b/external/upstream/pybind11/CMakeLists.txt	2023-04-07 11:58:47.659067995 +0900
+@@ -1,10 +1,10 @@
+-if(${Python_VERSION_MINOR} GREATER_EQUAL "11")
+-    find_package(pybind11 2.10.1 CONFIG QUIET)
+-else()
+-    find_package(pybind11 2.6.2 CONFIG QUIET)
+-endif()
++#if(${Python_VERSION_MINOR} GREATER_EQUAL "11")
++#    find_package(pybind11 2.10.1 CONFIG QUIET)
++#else()
++#    find_package(pybind11 2.6.2 CONFIG QUIET)
++#endif()
+ 
+-if(${pybind11_FOUND})
++if(0)
+     message(STATUS "${Cyan}Found pybind11${ColourReset}: ${pybind11_INCLUDE_DIR} (found version ${pybind11_VERSION})")
+     add_library(pybind11_external INTERFACE)  # dummy
+ else()
+diff -rup a/external/upstream/pylibefp/CMakeLists.txt b/external/upstream/pylibefp/CMakeLists.txt
+--- a/external/upstream/pylibefp/CMakeLists.txt	2023-04-07 10:53:56.664065768 +0900
++++ b/external/upstream/pylibefp/CMakeLists.txt	2023-04-07 11:59:03.349148045 +0900
+@@ -1,7 +1,7 @@
+ if(${ENABLE_libefp})
+-    find_package(pylibefp 0.6.1 CONFIG QUIET)
++#    find_package(pylibefp 0.6.1 CONFIG QUIET)
+ 
+-    if(${pylibefp_FOUND})
++    if(0)
+         get_property(_loc TARGET pylibefp::core PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found pylibefp${ColourReset}: ${_loc} (found version ${pylibefp_VERSION})")
+         add_library(pylibefp_external INTERFACE)  # dummy
+diff -rup a/external/upstream/simint/CMakeLists.txt b/external/upstream/simint/CMakeLists.txt
+--- a/external/upstream/simint/CMakeLists.txt	2023-04-07 10:53:56.664065768 +0900
++++ b/external/upstream/simint/CMakeLists.txt	2023-04-07 11:59:51.865395524 +0900
+@@ -1,9 +1,9 @@
+ set(SIMINT_VER "0.7")
+ 
+ if(${ENABLE_simint})
+-    find_package(simint ${SIMINT_VER} CONFIG QUIET COMPONENTS am${MAX_AM_ERI} der0)
++#    find_package(simint ${SIMINT_VER} CONFIG QUIET COMPONENTS am${MAX_AM_ERI} der0)
+ 
+-    if(${simint_FOUND})
++    if(0)
+         get_property(_loc TARGET simint::simint PROPERTY LOCATION)
+         message(STATUS "${Cyan}Found simint ${simint_MAXAM}${ColourReset}: ${_loc} (found version ${simint_VERSION}; vectorization ${simint_VECTOR})")
+         add_library(simint_external INTERFACE)  # dummy

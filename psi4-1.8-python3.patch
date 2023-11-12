@@ -1,0 +1,12 @@
+diff -rup a/tests/runtest.py b/tests/runtest.py
+--- a/tests/runtest.py	2022-12-07 07:09:19.000000000 +0900
++++ b/tests/runtest.py	2023-03-27 11:12:52.004331989 +0900
+@@ -116,7 +116,7 @@ elif os.path.isfile(infile.replace(".dat
+     else:
+         os.environ["PYTHONPATH"] = psilibdir
+     outfile = os.path.dirname(infile) + os.path.sep + outfile
+-    pyexitcode = backtick(["python", infile, " > ", outfile])
++    pyexitcode = backtick(["python3", infile, " > ", outfile])
+ else:
+     raise Exception("\n\nError: Input file %s not found\n" % infile)
+ 

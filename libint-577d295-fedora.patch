@@ -1,0 +1,33 @@
+diff -rup a/src/bin/libint/build_libint.cc b/src/bin/libint/build_libint.cc
+--- a/src/bin/libint/build_libint.cc  2023-02-12 07:29:50.000000000 +0900
++++ b/src/bin/libint/build_libint.cc  2023-04-03 13:20:44.052674634 +0900
+@@ -1296,6 +1296,8 @@ build_TwoPRep_1b_2k(std::ostream& os, co
+           dg_xxx->reset();
+           memman->reset();
+ 
++          std::cout << "done" << std::endl;
++
+       } // end of d loop
+     } // end of c loop
+   } // end of bra loop
+@@ -1483,6 +1485,8 @@ build_TwoPRep_1b_1k(std::ostream& os, co
+           dg_xxx->reset();
+           memman->reset();
+ 
++          std::cout << "done" << std::endl;
++
+     } // end of ket loop
+   } // end of bra loop
+ 
+diff -rup a/src/lib/libint/CMakeLists.txt b/src/lib/libint/CMakeLists.txt
+--- a/src/lib/libint/CMakeLists.txt 2023-02-12 07:29:50.000000000 +0900
++++ b/src/lib/libint/CMakeLists.txt 2023-04-03 16:57:40.423195791 +0900
+@@ -84,6 +84,8 @@ else()
+     list(APPEND library_CMAKE_ARGS
+             -G${CMAKE_GENERATOR}
+             -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
++            -DCMAKE_CXX_STANDARD=14
++            -DCMAKE_CXX_STANDARD_REQUIRED=ON
+             -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+             -DCMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}

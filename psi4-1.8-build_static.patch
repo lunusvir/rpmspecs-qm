@@ -1,0 +1,207 @@
+diff -rup a/external/upstream/ambit/CMakeLists.txt f/external/upstream/ambit/CMakeLists.txt
+--- a/external/upstream/ambit/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/ambit/CMakeLists.txt	2023-04-04 16:44:12.985426501 +0900
+@@ -40,8 +40,8 @@ if(${ENABLE_ambit})
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DPYMOD_INSTALL_LIBDIR=${PYMOD_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DSTATIC_ONLY=${_a_only}
+-                       -DSHARED_ONLY=${_so_only}
++                       -DSTATIC_ONLY=ON
++                       -DSHARED_ONLY=OFF
+                        -DENABLE_OPENMP=${ENABLE_OPENMP}  # relevant
+                        #-DENABLE_VECTORIZATION=${ENABLE_VECTORIZATION}
+                        #-DEXTRA_Fortran_FLAGS=${CMAKE_EXTRA_Fortran_FLAGS}
+diff -rup a/external/upstream/chemps2/CMakeLists.txt f/external/upstream/chemps2/CMakeLists.txt
+--- a/external/upstream/chemps2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/chemps2/CMakeLists.txt	2023-04-04 16:41:07.768338537 +0900
+@@ -36,8 +36,8 @@ if(${ENABLE_CheMPS2})
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DSTATIC_ONLY=${_a_only}
+-                       -DSHARED_ONLY=${_so_only}
++                       -DSTATIC_ONLY=ON
++                       -DSHARED_ONLY=OFF
+                        -DENABLE_OPENMP=${ENABLE_OPENMP}  # relevant
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/cppe/CMakeLists.txt f/external/upstream/cppe/CMakeLists.txt
+--- a/external/upstream/cppe/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/cppe/CMakeLists.txt	2023-04-04 16:43:53.348311153 +0900
+@@ -28,7 +28,7 @@ if(${ENABLE_cppe})
+                        -DCMAKE_INSTALL_DATADIR=${CMAKE_INSTALL_DATADIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+                        -DPYMOD_INSTALL_LIBDIR=${PYMOD_INSTALL_LIBDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DENABLE_OPENMP=OFF
+                        -DENABLE_PYTHON_INTERFACE=ON
+                        -DPython_EXECUTABLE=${Python_EXECUTABLE}
+diff -rup a/external/upstream/dkh/CMakeLists.txt f/external/upstream/dkh/CMakeLists.txt
+--- a/external/upstream/dkh/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/dkh/CMakeLists.txt	2023-04-04 16:43:32.854190770 +0900
+@@ -26,7 +26,7 @@ if(${ENABLE_dkh})
+                        -Ddkh_INSTALL_CMAKEDIR=${_dkh_dir}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DENABLE_OPENMP=${ENABLE_OPENMP}  # relevant for thread safety
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/ecpint/CMakeLists.txt f/external/upstream/ecpint/CMakeLists.txt
+--- a/external/upstream/ecpint/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/ecpint/CMakeLists.txt	2023-04-04 16:43:24.064139138 +0900
+@@ -22,7 +22,7 @@ if(${ENABLE_ecpint})
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DLIBECPINT_USE_PUGIXML=OFF
+                        -DLIBECPINT_BUILD_TESTS=OFF
+                        -DLIBECPINT_BUILD_DOCS=OFF
+diff -rup a/external/upstream/erd/CMakeLists.txt f/external/upstream/erd/CMakeLists.txt
+--- a/external/upstream/erd/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/erd/CMakeLists.txt	2023-04-04 16:43:13.413076574 +0900
+@@ -21,7 +21,7 @@ if(${ENABLE_erd})
+                        -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DENABLE_OPENMP=${ENABLE_OPENMP}  # relevant for thread safety
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/gau2grid/CMakeLists.txt f/external/upstream/gau2grid/CMakeLists.txt
+--- a/external/upstream/gau2grid/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/gau2grid/CMakeLists.txt	2023-04-04 16:42:07.521689528 +0900
+@@ -20,7 +20,7 @@ else()
+                    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                    -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                    -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                   -DBUILD_SHARED_LIBS=OFF
+                     # OpenMP irrelevant
+                    -DENABLE_XHOST=${ENABLE_XHOST}
+                    -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/gdma/CMakeLists.txt f/external/upstream/gdma/CMakeLists.txt
+--- a/external/upstream/gdma/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/gdma/CMakeLists.txt	2023-04-04 16:42:23.411782866 +0900
+@@ -28,7 +28,7 @@ if(${ENABLE_gdma})
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DPYMOD_INSTALL_LIBDIR=${PYMOD_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -Dgdma_INSTALL_CMAKEDIR=${_gdma_dir}
+                        -Dgdma_ENABLE_PYTHON=ON
+                        -DPython_EXECUTABLE=${Python_EXECUTABLE}
+diff -rup a/external/upstream/gtfock/CMakeLists.txt f/external/upstream/gtfock/CMakeLists.txt
+--- a/external/upstream/gtfock/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/gtfock/CMakeLists.txt	2023-04-04 16:44:57.523688118 +0900
+@@ -25,7 +25,7 @@ if(${ENABLE_GTFock})
+                        -DCMAKE_Fortran_COMPILER=${CMAKE_Fortran_COMPILER}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        # OpenMP irrelevant
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/libefp/CMakeLists.txt f/external/upstream/libefp/CMakeLists.txt
+--- a/external/upstream/libefp/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/libefp/CMakeLists.txt	2023-04-04 16:41:30.804473851 +0900
+@@ -23,7 +23,7 @@ if(${ENABLE_libefp})
+                        -DCMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}
+                        -DCMAKE_INSTALL_DATADIR=${CMAKE_INSTALL_DATADIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DENABLE_OPENMP=OFF  # Psi4 sometimes reacts poorly to threaded efp
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/libint/CMakeLists.txt f/external/upstream/libint/CMakeLists.txt
+--- a/external/upstream/libint/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/libint/CMakeLists.txt	2023-04-04 16:45:21.063826393 +0900
+@@ -22,7 +22,7 @@ else()
+                    -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                    -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+                    -DMAX_AM_ERI=${MAX_AM_ERI}
+-                   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                   -DBUILD_SHARED_LIBS=OFF
+                    # OpenMP irrelevant
+                    -DENABLE_XHOST=${ENABLE_XHOST}
+                    -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/libint2/CMakeLists.txt b/external/upstream/libint2/CMakeLists.txt
+--- a/external/upstream/libint2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libint2/CMakeLists.txt	2023-03-30 11:03:20.052453914 +0900
+@@ -83,7 +83,7 @@ if (MSVC)
+             set(_build_shared_libs "OFF")
+         else()
+             # stopgap to avert a report that static lib not working on Linux
+-            set(_build_shared_libs "ON")
++            set(_build_shared_libs "OFF")
+         endif()
+ 
+         # reportedly Debug takes forever to build on Mac
+@@ -103,7 +103,7 @@ else()
+                        -DBOOST_ROOT=${BOOST_ROOT}
+                        -DEigen3_DIR=${Eigen3_DIR}
+                        -DEigen3_ROOT=${Eigen3_ROOT}
+-                       -DBUILD_SHARED_LIBS=${_build_shared_libs}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DLIBINT2_REQUIRE_CXX_API=ON
+                        -DLIBINT2_REQUIRE_CXX_API_COMPILED=OFF
+                        -DLIBINT2_ENABLE_FORTRAN=OFF
+diff -rup a/external/upstream/libxc/CMakeLists.txt b/external/upstream/libxc/CMakeLists.txt
+--- a/external/upstream/libxc/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libxc/CMakeLists.txt	2023-04-04 11:04:19.922536228 +0900
+@@ -31,7 +31,7 @@ else()
+                    -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+                    -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}
+                    -DNAMESPACE_INSTALL_INCLUDEDIR=/
+-                   -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                   -DBUILD_SHARED_LIBS=OFF
+                    # OpenMP irrelevant
+                    -DENABLE_XHOST=${ENABLE_XHOST}
+                    -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/mdi/CMakeLists.txt f/external/upstream/mdi/CMakeLists.txt
+--- a/external/upstream/mdi/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/mdi/CMakeLists.txt	2023-04-04 16:43:01.952009251 +0900
+@@ -21,7 +21,7 @@ if(${ENABLE_mdi})
+                        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        -DENABLE_OPENMP=${ENABLE_OPENMP}  # relevant for thread safety
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DBUILD_FPIC=${BUILD_FPIC}
+diff -rup a/external/upstream/pcmsolver/CMakeLists.txt f/external/upstream/pcmsolver/CMakeLists.txt
+--- a/external/upstream/pcmsolver/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/pcmsolver/CMakeLists.txt	2023-04-04 16:45:36.758918586 +0900
+@@ -40,8 +40,8 @@
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+                        -DPCMSolver_INSTALL_CMAKEDIR=${_pcmsolver_dir}
+                        -DPython_EXECUTABLE=${Python_EXECUTABLE}
+-                       -DSTATIC_LIBRARY_ONLY=${_a_only}
+-                       -DSHARED_LIBRARY_ONLY=${_so_only}
++                       -DSTATIC_LIBRARY_ONLY=ON
++                       -DSHARED_LIBRARY_ONLY=OFF
+                        -DENABLE_OPENMP=OFF
+                        #-DENABLE_XHOST=${ENABLE_XHOST}  # option missing
+                        # always fpic'd
+diff -rup a/external/upstream/simint/CMakeLists.txt f/external/upstream/simint/CMakeLists.txt
+--- a/external/upstream/simint/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ f/external/upstream/simint/CMakeLists.txt	2023-04-04 16:41:50.280588254 +0900
+@@ -30,7 +30,7 @@ if(${ENABLE_simint})
+                        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+                        -DCMAKE_INSTALL_INCLUDEDIR=${CMAKE_INSTALL_INCLUDEDIR}
+-                       -DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}
++                       -DBUILD_SHARED_LIBS=OFF
+                        # OpenMP relevant but always ON and handled by simint
+                        # xHost handled through SIMINT_VECTOR. default sse equiv to XHOST=OFF
+                        -DCMAKE_POSITION_INDEPENDENT_CODE=${BUILD_FPIC}

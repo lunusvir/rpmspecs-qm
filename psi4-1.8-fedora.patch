@@ -1,0 +1,113 @@
+diff -rup a/cmake/TestingMacros.cmake b/cmake/TestingMacros.cmake
+--- a/cmake/TestingMacros.cmake	2022-12-07 07:09:19.000000000 +0900
++++ b/cmake/TestingMacros.cmake	2023-03-31 20:03:15.802640873 +0900
+@@ -26,6 +26,7 @@ macro(add_regression_test _name _labels)
+     # Some tests are in subdirectories of subdirectories (cfour, mrcc, dftd3) 
+     get_filename_component(dir ${TEST_SRC_DIR} PATH)
+     get_filename_component(dir ${dir} NAME)
++    set(TEST_LIB_DIR ${STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
+     if("${dir}" STREQUAL "tests")
+         set(TEST_RUN_DIR ${PROJECT_BINARY_DIR}/tests/${_name})
+     elseif(("${dir}" STREQUAL "plugins") AND ("${_name}" MATCHES "skeleton"))
+@@ -46,7 +47,7 @@ macro(add_regression_test _name _labels)
+     )
+     set_tests_properties("${_name}"
+       PROPERTIES
+-        ENVIRONMENT PYTHONPATH=${PSILIB})
++        ENVIRONMENT "PYTHONPATH=${PSILIB};LD_LIBRARY_PATH=${TEST_LIB_DIR};PSIDATADIR=${PSIDATADIR}")
+ 
+     if(labels)
+         set_tests_properties(${_name} PROPERTIES LABELS "${labels}")
+diff -rup a/external/upstream/libint2/CMakeLists.txt b/external/upstream/libint2/CMakeLists.txt
+--- a/external/upstream/libint2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libint2/CMakeLists.txt	2023-03-30 11:03:20.052453914 +0900
+@@ -62,6 +62,9 @@ else()
+     endif()
+ 
+     include(ExternalProject)
++
++    set(LIBINT_CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS}\ -g1)
++    set(LIBINT_CMAKE_C_FLAGS ${CMAKE_C_FLAGS}\ -g1)
+ 
+     if(NOT ${BUILD_Libint2_GENERATOR})
+         if (${MAX_AM_ERI} GREATER 5)
+@@ -89,7 +92,7 @@ else()
+             URL ${_url_l2_tarball}
+             CMAKE_ARGS -GNinja
+                        -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+-                       -DCMAKE_BUILD_TYPE=${_cmake_build_type}
++                       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                        -DCMAKE_INSTALL_BINDIR=${CMAKE_INSTALL_BINDIR}
+@@ -107,8 +110,8 @@ else()
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                        -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}
+-            CMAKE_CACHE_ARGS -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+-                             -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS})
++            CMAKE_CACHE_ARGS -DCMAKE_CXX_FLAGS:STRING=${LIBINT_CMAKE_CXX_FLAGS}
++                             -DCMAKE_C_FLAGS:STRING=${LIBINT_CMAKE_C_FLAGS})
+ 
+     else()
+         message(STATUS "Suitable Libint2 could not be located, ${Magenta}Building Libint2${ColourReset} from generator source instead.")
+@@ -120,11 +123,33 @@ else()
+ 
+         # NOTE: active AM settings below will pass few tests, as they're set for 1st row triple-zeta ene and double-zeta ene/grad/hess for both conv/df. Please edit for desired use.
+ 
++        if(CMAKE_SIZEOF_VOID_P EQUAL 8)
++            set(LIBINT2_INSTALL_LIBDIR "lib64" CACHE PATH "LIBINT2 LIB install directory")
++        else()
++            set(LIBINT2_INSTALL_LIBDIR "lib" CACHE PATH "LIBINT2 LIB install directory")
++        endif()
++
++        if (${MAX_AM_ERI} GREATER 5)
++            set(_arg_max_am_eri "7;7;4")
++            set(_arg_max_am     "7;7;5")
++        elseif (${MAX_AM_ERI} EQUAL 5)
++            set(_arg_max_am_eri "5;4;3")
++            set(_arg_max_am     "6;5;4")
++        elseif (${MAX_AM_ERI} LESS_EQUAL 4)
++            set(_arg_max_am_eri "4;3;3")
++            set(_arg_max_am     "5;4;4")
++        endif()
++
++        if(DEFINED ENV{LGTM_SRC})
++            set(_arg_max_am_eri "2;0;0")
++            set(_arg_max_am     "0;0;0")
++        endif()
++
+         ExternalProject_Add(libint2_external
+             URL https://github.com/loriab/libint/archive/new-cmake-2023-take2-b.zip
+             CMAKE_ARGS -GNinja
+                        -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+-                       -DCMAKE_BUILD_TYPE=${_cmake_build_type}
++                       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                        -DCMAKE_INSTALL_LIBDIR=${CMAKE_INSTALL_LIBDIR}
+@@ -155,17 +180,17 @@ else()
+                        -DENABLE_XHOST=${ENABLE_XHOST}
+                        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
+                        -DCMAKE_OSX_SYSROOT=${CMAKE_OSX_SYSROOT}
+-            CMAKE_CACHE_ARGS -DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS}
+-                             -DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS}
+-                             -DWITH_ERI_MAX_AM:STRING=3;2;2
+-                             -DWITH_ERI3_MAX_AM:STRING=4;3;3
+-                             -DWITH_ERI2_MAX_AM:STRING=4;3;3
+-                             -DWITH_MAX_AM:STRING=4;3;3
++            CMAKE_CACHE_ARGS -DCMAKE_CXX_FLAGS:STRING=${LIBINT_CMAKE_CXX_FLAGS}
++                             -DCMAKE_C_FLAGS:STRING=${LIBINT_CMAKE_C_FLAGS}
++                             -DWITH_ERI_MAX_AM:STRING=${_arg_max_am_eri}
++                             -DWITH_ERI3_MAX_AM:STRING=${_arg_max_am}
++                             -DWITH_ERI2_MAX_AM:STRING=${_arg_max_am}
++                             -DWITH_MAX_AM:STRING=${_arg_max_am}
+                              -DWITH_G12_MAX_AM:STRING=3
+         )
+     endif()
+ 
+-    set(Libint2_DIR ${STAGED_INSTALL_PREFIX}/lib/cmake/libint2 CACHE PATH "path to internally built libint2-config.cmake" FORCE)
++    set(Libint2_DIR ${STAGED_INSTALL_PREFIX}/${LIBINT2_INSTALL_LIBDIR}/cmake/libint2 CACHE PATH "path to internally built libint2-config.cmake" FORCE)
+ 
+ endif()
+ 

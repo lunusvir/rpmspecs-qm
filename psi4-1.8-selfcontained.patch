@@ -1,0 +1,369 @@
+diff -rup a/external/downstream/adcc/CMakeLists.txt b/external/downstream/adcc/CMakeLists.txt
+--- a/external/downstream/adcc/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/adcc/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -18,7 +18,7 @@ if(${ENABLE_adcc})
+ 
+         ExternalProject_Add(adcc_external
+             BUILD_ALWAYS 1
+-            URL https://github.com/adc-connect/adcc/archive/v0.15.16.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/adcc-0.15.16.tar.gz
+             CONFIGURE_COMMAND ""
+             UPDATE_COMMAND ""
+             BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/downstream/cct3/CMakeLists.txt b/external/downstream/cct3/CMakeLists.txt
+--- a/external/downstream/cct3/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/cct3/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -16,7 +16,7 @@ if(${ENABLE_cct3})
+ 
+         ExternalProject_Add(cct3_external
+             DEPENDS psi4-core
+-            URL https://github.com/piecuch-group/cct3/archive/bff480f.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/cct3-bff480f.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/downstream/gpu_dfcc/CMakeLists.txt b/external/downstream/gpu_dfcc/CMakeLists.txt
+--- a/external/downstream/gpu_dfcc/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/gpu_dfcc/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -15,7 +15,7 @@ if(${ENABLE_gpu_dfcc})
+ 
+         ExternalProject_Add(gpu_dfcc_external
+             DEPENDS psi4-core
+-            URL https://github.com/edeprince3/gpu_dfcc/archive/b98c6f1.tar.gz  # v0.3 + 1 (install fix)
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/gpu_dfcc-b98c6f1.tar.gz  # v0.3 + 1 (install fix)
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/downstream/pasture/CMakeLists.txt b/external/downstream/pasture/CMakeLists.txt
+--- a/external/downstream/pasture/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/pasture/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -1,7 +1,7 @@
+ if(ENABLE_pasture)
+   ExternalProject_Add(pasture
+     DEPENDS psi4-core
+-    GIT_REPOSITORY https://github.com/psi4/psi4pasture
++    URL ${CMAKE_CURRENT_SOURCE_DIR}/psi4pasture-f10345d.tar.gz
+     CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                -DENABLE_ccsort=${ENABLE_ccsort}
+                -DENABLE_transqt2=${ENABLE_transqt2}
+diff -rup a/external/downstream/psi4fockci/CMakeLists.txt b/external/downstream/psi4fockci/CMakeLists.txt
+--- a/external/downstream/psi4fockci/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/psi4fockci/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -20,7 +20,7 @@ if(${ENABLE_psi4fockci})
+ 
+         ExternalProject_Add(psi4fockci_external
+             BUILD_ALWAYS 1
+-            URL https://github.com/shannonhouck/psi4fockci/archive/267e171.tar.gz # v0.1.0
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/psi4fockci-267e171.tar.gz # v0.1.0
+             CONFIGURE_COMMAND ""
+             UPDATE_COMMAND ""
+             BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/downstream/snsmp2/CMakeLists.txt b/external/downstream/snsmp2/CMakeLists.txt
+--- a/external/downstream/snsmp2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/snsmp2/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -19,7 +19,7 @@ if(${ENABLE_snsmp2})
+         ExternalProject_Add(snsmp2_external
+             DEPENDS qcelemental_external
+             BUILD_ALWAYS 1
+-            URL https://github.com/DEShawResearch/sns-mp2/archive/12462c6.tar.gz  # v1.0 + 26
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/sns-mp2-12462c6.tar.gz  # v1.0 + 26
+             CONFIGURE_COMMAND ""
+             UPDATE_COMMAND ""
+             BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/downstream/v2rdm_casscf/CMakeLists.txt b/external/downstream/v2rdm_casscf/CMakeLists.txt
+--- a/external/downstream/v2rdm_casscf/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/downstream/v2rdm_casscf/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -16,7 +16,7 @@ if(${ENABLE_v2rdm_casscf})
+ 
+         ExternalProject_Add(v2rdm_casscf_external
+             DEPENDS psi4-core
+-            URL https://github.com/loriab/v2rdm_casscf/archive/aa7d6a1.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/v2rdm_casscf-aa7d6a1.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/ambit/CMakeLists.txt b/external/upstream/ambit/CMakeLists.txt
+--- a/external/upstream/ambit/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/ambit/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -30,7 +30,7 @@ if(${ENABLE_ambit})
+             DEPENDS lapack_external
+                     hdf5_external
+                     pybind11_external
+-            URL https://github.com/jturney/ambit/archive/733c529.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/ambit-733c529.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/bse/CMakeLists.txt b/external/upstream/bse/CMakeLists.txt
+--- a/external/upstream/bse/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/bse/CMakeLists.txt	2023-04-07 11:51:10.421262387 +0900
+@@ -20,7 +20,7 @@ if(${ENABLE_bse})
+     
+         ExternalProject_Add(bse_external
+             BUILD_ALWAYS 1
+-            URL https://github.com/MolSSI-BSE/basis_set_exchange/archive/v0.9.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/basis_set_exchange-0.9.tar.gz
+             CONFIGURE_COMMAND ""
+             UPDATE_COMMAND ""
+             BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/upstream/chemps2/CMakeLists.txt b/external/upstream/chemps2/CMakeLists.txt
+--- a/external/upstream/chemps2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/chemps2/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -27,7 +27,7 @@ if(${ENABLE_CheMPS2})
+         ExternalProject_Add(chemps2_external
+             DEPENDS lapack_external
+                     hdf5_external
+-            URL https://github.com/SebWouters/CheMPS2/archive/d8ac508.tar.gz  # v1.8.9 + 1
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/CheMPS2-d8ac508.tar.gz  # v1.8.9 + 1
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/cppe/CMakeLists.txt b/external/upstream/cppe/CMakeLists.txt
+--- a/external/upstream/cppe/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/cppe/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -17,7 +17,7 @@ if(${ENABLE_cppe})
+ 
+         ExternalProject_Add(cppe_external
+             DEPENDS pybind11_external
+-            URL https://github.com/maxscheurer/cppe/archive/v0.3.1.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/cppe-0.3.1.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                         # runtime segfault if Debug passed from Psi4
+diff -rup a/external/upstream/ddx/CMakeLists.txt b/external/upstream/ddx/CMakeLists.txt
+--- a/external/upstream/ddx/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/ddx/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -21,7 +21,7 @@ if(${ENABLE_ddx})
+ 
+         ExternalProject_Add(ddx_external
+             BUILD_ALWAYS 1
+-            URL https://github.com/ddsolvation/ddX/archive/v0.4.5.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/ddX-0.4.5.tar.gz
+             CONFIGURE_COMMAND ""
+             UPDATE_COMMAND ""
+             BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/upstream/dkh/CMakeLists.txt b/external/upstream/dkh/CMakeLists.txt
+--- a/external/upstream/dkh/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/dkh/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -17,7 +17,7 @@ if(${ENABLE_dkh})
+ 
+         ExternalProject_Add(dkh_external
+             DEPENDS lapack_external
+-            URL https://github.com/psi4/dkh/archive/3ba0128.tar.gz  # v1.2 + cmake
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/dkh-3ba0128.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/ecpint/CMakeLists.txt b/external/upstream/ecpint/CMakeLists.txt
+--- a/external/upstream/ecpint/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/ecpint/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -13,7 +13,7 @@ if(${ENABLE_ecpint})
+         include(ExternalProject)
+         message(STATUS "Suitable ecpint could not be located, ${Magenta}Building ecpint${ColourReset} instead.")
+         ExternalProject_Add(ecpint_external
+-            URL https://github.com/robashaw/libecpint/archive/v1.0.7.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/libecpint-1.0.7.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/erd/CMakeLists.txt b/external/upstream/erd/CMakeLists.txt
+--- a/external/upstream/erd/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/erd/CMakeLists.txt	2023-03-27 12:11:17.573015429 +0900
+@@ -13,7 +13,7 @@ if(${ENABLE_erd})
+         include(ExternalProject)
+         message(STATUS "Suitable erd could not be located, ${Magenta}Building erd${ColourReset} instead.")
+         ExternalProject_Add(erd_external
+-            URL https://github.com/psi4/erd/archive/v3.0.6/tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/erd-3.0.6.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/gau2grid/CMakeLists.txt b/external/upstream/gau2grid/CMakeLists.txt
+--- a/external/upstream/gau2grid/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/gau2grid/CMakeLists.txt	2023-03-27 12:11:17.574015434 +0900
+@@ -13,7 +13,7 @@ else()
+     message(STATUS "Suitable gau2grid could not be located, ${Magenta}Building gau2grid${ColourReset} instead.")
+     ExternalProject_Add(gau2grid_external
+         DEPENDS pybind11_external
+-        URL https://github.com/dgasmith/gau2grid/archive/v2.0.7.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/gau2grid-2.0.7.tar.gz
+         UPDATE_COMMAND ""
+         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/gdma/CMakeLists.txt b/external/upstream/gdma/CMakeLists.txt
+--- a/external/upstream/gdma/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/gdma/CMakeLists.txt	2023-03-27 12:11:17.574015434 +0900
+@@ -17,7 +17,7 @@ if(${ENABLE_gdma})
+ 
+         ExternalProject_Add(gdma_external
+             DEPENDS pybind11_external
+-            URL https://github.com/psi4/gdma/archive/v2.3.3.tar.gz  # Stone's upstream c2e0b548 plus commits from Andy Simmonett for lib, Holger Kruse for I/O, Lori Burns for CMake & Python
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/gdma-2.3.3.tar.gz  # Stone's upstream c2e0b548 plus commits from Andy Simmonett for lib, Holger Kruse for I/O, Lori Burns for CMake & Python
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/gtfock/CMakeLists.txt b/external/upstream/gtfock/CMakeLists.txt
+--- a/external/upstream/gtfock/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/gtfock/CMakeLists.txt	2023-03-27 12:11:17.574015434 +0900
+@@ -16,7 +16,7 @@ if(${ENABLE_GTFock})
+         message(FATAL_ERROR "GTFock has not been hooked back in after the inversion.")
+ 
+         ExternalProject_Add(gtfock_external
+-            GIT_REPOSITORY https://github.com/psi4/GTFock
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/GTFock-8dc3519.tar.gz
+             #GIT_TAG v1.7.1  # TODO tag when stable
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+diff -rup a/external/upstream/libefp/CMakeLists.txt b/external/upstream/libefp/CMakeLists.txt
+--- a/external/upstream/libefp/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libefp/CMakeLists.txt	2023-03-27 12:11:17.574015434 +0900
+@@ -14,7 +14,7 @@ if(${ENABLE_libefp})
+         message(STATUS "Suitable libefp could not be located, ${Magenta}Building libefp${ColourReset} instead.")
+         ExternalProject_Add(libefp_external
+             DEPENDS lapack_external
+-            URL https://github.com/ilyak/libefp/archive/15cd7ce.tar.gz  # v1.5.0 + 10 (docs and a cmake lapack patch)
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/libefp-15cd7ce.tar.gz  # v1.5.0 + 10 (docs and a cmake lapack patch)
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/libint/CMakeLists.txt b/external/upstream/libint/CMakeLists.txt
+--- a/external/upstream/libint/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libint/CMakeLists.txt	2023-03-27 12:11:17.574015434 +0900
+@@ -14,7 +14,7 @@ else()
+     message(STATUS "Suitable Libint could not be located, ${Magenta}Building Libint${ColourReset} instead.")
+     ExternalProject_Add(libint_external
+         # "git checkout" fails on Windows, because of "*" in filenames (e.g. basis set files)
+-        URL https://github.com/loriab/libint/archive/libint_t.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/libint-935d379.tar.gz
+         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                    -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+diff -rup a/external/upstream/libint2/CMakeLists.txt b/external/upstream/libint2/CMakeLists.txt
+--- a/external/upstream/libint2/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libint2/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -73,7 +73,7 @@ else()
+             set(_url_am_src "5-4-3-6-5-4")  # passes full. production Mac, temp production Linux
+         endif()
+ 
+-        set(_url_l2_tarball "https://github.com/loriab/libint/releases/download/v0.1/libint-2.7.2-post1-${_url_am_src}_mm4f12ob2_1.tgz")
++        set(_url_l2_tarball "${CMAKE_CURRENT_SOURCE_DIR}/libint-2.7.2-post1-${_url_am_src}_mm4f12ob2_1.tgz")
+ 
+         message(STATUS "Suitable Libint2 could not be located, ${Magenta}Building Libint2 ${_url_am_src}${ColourReset} instead.")
+ 
+@@ -146,7 +146,7 @@ if()
+         endif()
+ 
+         ExternalProject_Add(libint2_external
+-            URL https://github.com/loriab/libint/archive/new-cmake-2023-take2-b.zip
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/libint-0eca57e.tar.gz
+             CMAKE_ARGS -GNinja
+                        -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/libxc/CMakeLists.txt b/external/upstream/libxc/CMakeLists.txt
+--- a/external/upstream/libxc/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/libxc/CMakeLists.txt	2023-04-04 11:04:47.916702317 +0900
+@@ -19,7 +19,7 @@ else()
+         # Default: use a stable release tarball of libxc. To use the
+         # development version of libxc, instead, comment the URL line,
+         # and uncomment the GIT lines.
+-        URL https://gitlab.com/libxc/libxc/-/archive/6.2.2/libxc-6.2.2.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/libxc-6.2.2.tar.gz
+         #GIT_REPOSITORY https://gitlab.com/libxc/libxc.git
+         #GIT_TAG 5.1.5
+         #UPDATE_COMMAND ""
+diff -rup a/external/upstream/mdi/CMakeLists.txt b/external/upstream/mdi/CMakeLists.txt
+--- a/external/upstream/mdi/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/mdi/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -13,7 +13,7 @@ if(${ENABLE_mdi})
+         include(ExternalProject)
+         message(STATUS "Suitable mdi could not be located, ${Magenta}Building mdi${ColourReset} instead.")
+         ExternalProject_Add(mdi_external
+-            URL https://github.com/MolSSI-MDI/MDI_Library/archive/v1.2.3.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/MDI_Library-1.2.3.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/optking/CMakeLists.txt b/external/upstream/optking/CMakeLists.txt
+--- a/external/upstream/optking/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/optking/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -19,7 +19,7 @@ else()
+ 
+     ExternalProject_Add(optking_external
+         BUILD_ALWAYS 1
+-        URL https://github.com/psi-rking/optking/archive/0.2.1.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/optking-0.2.1.tar.gz
+         CONFIGURE_COMMAND ""
+         UPDATE_COMMAND ""
+         BUILD_COMMAND ${Python_EXECUTABLE} setup.py build
+diff -rup a/external/upstream/pcmsolver/CMakeLists.txt b/external/upstream/pcmsolver/CMakeLists.txt
+--- a/external/upstream/pcmsolver/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/pcmsolver/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -26,7 +26,7 @@
+         ExternalProject_Add(pcmsolver_external
+             #URL https://github.com/PCMSolver/pcmsolver/archive/v1.3.1.tar.gz
+             #URL https://github.com/loriab/pcmsolver/archive/v1211.tar.gz
+-            URL https://github.com/loriab/pcmsolver/archive/v123_plus_ming.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/pcmsolver-v123_plus_ming.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/pybind11/CMakeLists.txt b/external/upstream/pybind11/CMakeLists.txt
+--- a/external/upstream/pybind11/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/pybind11/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -15,7 +15,7 @@ else()
+     include(ExternalProject)
+     message(STATUS "Suitable pybind11 could not be located, ${Magenta}Building pybind11${ColourReset} instead.")
+     ExternalProject_Add(pybind11_external
+-        URL https://github.com/pybind/pybind11/archive/v2.10.3.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/pybind11-2.10.3.tar.gz
+         UPDATE_COMMAND ""
+         CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                    -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/pylibefp/CMakeLists.txt b/external/upstream/pylibefp/CMakeLists.txt
+--- a/external/upstream/pylibefp/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/pylibefp/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -20,7 +20,7 @@ if(${ENABLE_libefp})
+             DEPENDS lapack_external
+                     libefp_external
+                     pybind11_external
+-            URL https://github.com/loriab/pylibefp/archive/v0.6.1.tar.gz
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/pylibefp-0.6.1.tar.gz
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+diff -rup a/external/upstream/qcelemental/CMakeLists.txt b/external/upstream/qcelemental/CMakeLists.txt
+--- a/external/upstream/qcelemental/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/qcelemental/CMakeLists.txt	2023-03-27 12:11:17.588015505 +0900
+@@ -19,7 +19,7 @@ else()
+ 
+     ExternalProject_Add(qcelemental_external
+         BUILD_ALWAYS 1
+-        URL https://github.com/MolSSI/QCElemental/archive/v0.26.0.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/QCElemental-0.26.0.tar.gz
+         DOWNLOAD_NO_EXTRACT 1
+         CONFIGURE_COMMAND ""
+         UPDATE_COMMAND ""
+diff -rup a/external/upstream/qcengine/CMakeLists.txt b/external/upstream/qcengine/CMakeLists.txt
+--- a/external/upstream/qcengine/CMakeLists.txt	2022-12-07 07:09:19.000000000 +0900
++++ b/external/upstream/qcengine/CMakeLists.txt	2023-03-27 12:11:17.589015510 +0900
+@@ -31,7 +31,7 @@ else()
+     ExternalProject_Add(qcengine_external
+         DEPENDS qcelemental_external
+         BUILD_ALWAYS 1
+-        URL https://github.com/MolSSI/QCEngine/archive/v0.28.1.tar.gz
++        URL ${CMAKE_CURRENT_SOURCE_DIR}/QCEngine-0.28.1.tar.gz
+         DOWNLOAD_NO_EXTRACT 1
+         CONFIGURE_COMMAND ""
+         UPDATE_COMMAND ""
+diff -rup a/external/upstream/simint/CMakeLists.txt b/external/upstream/simint/CMakeLists.txt
+--- a/external/upstream/simint/CMakeLists.txt	2023-04-03 12:47:01.007516217 +0900
++++ b/external/upstream/simint/CMakeLists.txt	2023-04-03 12:53:47.419164995 +0900
+@@ -22,7 +22,7 @@ if(${ENABLE_simint})
+         endif()
+ 
+         ExternalProject_Add(simint_external
+-            URL http://www.bennyp.org/research/simint/download/simint-v${SIMINT_VER}.tar.bz2
++            URL ${CMAKE_CURRENT_SOURCE_DIR}/simint-v${SIMINT_VER}.tar.bz2
+             UPDATE_COMMAND ""
+             CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${STAGED_INSTALL_PREFIX}
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}

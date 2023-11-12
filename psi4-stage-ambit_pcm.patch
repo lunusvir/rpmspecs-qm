@@ -1,0 +1,92 @@
+diff -rup a/stage/bin/go_pcm.py b/stage/bin/go_pcm.py
+--- a/stage/bin/go_pcm.py	2020-12-22 14:08:59.000000000 +0900
++++ b/stage/bin/go_pcm.py	2023-04-13 12:53:43.726198376 +0900
+@@ -34,8 +34,8 @@ import subprocess
+ import sys
+ 
+ try:
+-    import pcmsolver as pcm
+-    from pcmsolver.external import docopt
++    import psi4.external.pcmsolver as pcm
++    from psi4.external.pcmsolver.external import docopt
+ except ImportError as ops:
+     sys.stderr.write("{}\n\n".format(ops))
+     sys.stderr.write("""You should update your PYTHONPATH to use go_pcm.py
+diff -rup a/stage/lib64/python3.11/site-packages/psi4/driver/inputparser.py b/stage/lib64/python3.11/site-packages/psi4/driver/inputparser.py
+--- a/stage/lib64/python3.11/site-packages/psi4/driver/inputparser.py	2023-04-03 22:25:28.000000000 +0900
++++ b/stage/lib64/python3.11/site-packages/psi4/driver/inputparser.py	2023-04-13 13:09:51.550221785 +0900
+@@ -343,7 +343,7 @@ def process_pcm_command(matchobj):
+     pcmsolver_fname = 'pcmsolver.' + suffix + '.inp'
+     with open(pcmsolver_fname, 'w') as handle:
+         handle.write(block)
+-    import pcmsolver
++    import psi4.external.pcmsolver as pcmsolver
+     parsed_pcm = pcmsolver.parse_pcm_input(pcmsolver_fname).splitlines()
+     os.remove(pcmsolver_fname)
+     pcmsolver_parsed_fname = '@pcmsolver.' + suffix
+diff -rup a/stage/lib64/python3.11/site-packages/psi4/driver/p4util/python_helpers.py b/stage/lib64/python3.11/site-packages/psi4/driver/p4util/python_helpers.py
+--- a/stage/lib64/python3.11/site-packages/psi4/driver/p4util/python_helpers.py	2023-04-03 22:25:28.000000000 +0900
++++ b/stage/lib64/python3.11/site-packages/psi4/driver/p4util/python_helpers.py	2023-04-13 13:07:03.664003451 +0900
+@@ -632,7 +632,7 @@ def pcm_helper(block: str):
+         Text that goes in a PSIthon ``pcm = {...}`` block.
+ 
+     """
+-    import pcmsolver
++    import psi4.external.pcmsolver as pcmsolver
+ 
+     with NamedTemporaryFile(mode="w+t", delete=True) as fl:
+         fl.write(block)
+
+diff -rup a/stage/lib64/python3.11/site-packages/psi4/driver/procrouting/diis.py b/stage/lib64/python3.11/site-packages/psi4/driver/procrouting/diis.py
+--- a/stage/lib64/python3.11/site-packages/psi4/driver/procrouting/diis.py	2023-04-03 22:25:28.000000000 +0900
++++ b/stage/lib64/python3.11/site-packages/psi4/driver/procrouting/diis.py	2023-04-13 13:19:38.857483815 +0900
+@@ -21,12 +21,6 @@ def axpy(y, alpha, x):
+         y.axpy(alpha, x)
+     elif isinstance(y, (core.dpdbuf4, core.dpdfile2)):
+         y.axpy_matrix(x, alpha)
+-    elif which_import("ambit", return_bool=True):
+-        import ambit
+-        if isinstance(x, ambit.BlockedTensor):
+-            y.axpy(alpha, x)
+-        else:
+-            raise TypeError("Unrecognized object type for DIIS.")
+     else:
+         raise TypeError("Unrecognized object type for DIIS.")
+ 
+@@ -46,12 +40,6 @@ def template_helper(*args):
+             template.append([arg.rowdim(), arg.coldim()])
+         elif isinstance(arg, float):
+             template.append(float(0))
+-        elif which_import("ambit", return_bool=True):
+-            import ambit
+-            if isinstance(arg, ambit.BlockedTensor):
+-                template.append(ambit.BlockedTensor)
+-            else:
+-                raise TypeError("Unrecognized object type for DIIS.")
+         else:
+             raise TypeError("Unrecognized object type for DIIS.")
+ 
+@@ -124,12 +112,6 @@ class DIIS:
+         elif isinstance(x, float):
+             # Never cache a _number_.
+             return x
+-        elif which_import("ambit", return_bool=True):
+-            import ambit
+-            if isinstance(x, ambit.BlockedTensor):
+-                copy = x.clone()
+-            else:
+-                raise TypeError("Unrecognized object type for DIIS.")
+         else:
+             raise TypeError("Unrecognized object type for DIIS.")
+         copy.name = new_name
+@@ -175,10 +157,6 @@ class DIIS:
+                 elif len(template_object) == 1:
+                     quantity = core.Vector(full_name, *template_object)
+                     quantity.load(psio, psif.PSIF_LIBDIIS)
+-            elif which_import("ambit", return_bool=True):
+-                import ambit
+-                if template_object == ambit.BlockedTensor:
+-                    quantity = ambit.BlockedTensor.load_and_build(f"libdiis.{full_name}")
+         else:
+             raise Exception(f"StoragePolicy {self.storage_policy} not recognized. This is a bug: contact developers.")
+ 

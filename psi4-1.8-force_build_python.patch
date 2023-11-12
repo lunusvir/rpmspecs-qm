@@ -1,0 +1,111 @@
+diff -rup a/external/upstream/bse/CMakeLists.txt b/external/upstream/bse/CMakeLists.txt
+--- a/external/upstream/bse/CMakeLists.txt	2023-04-03 22:25:28.000000000 +0900
++++ b/external/upstream/bse/CMakeLists.txt	2023-04-07 11:55:50.084162173 +0900
+@@ -1,10 +1,10 @@
+ if(${ENABLE_bse})
+-    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_bse}))
+-        include(FindPythonModule)
+-        find_python_module(bse ATLEAST 0.9.0 QUIET)
+-    endif()
++#    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_bse}))
++#        include(FindPythonModule)
++#        find_python_module(bse ATLEAST 0.9.0 QUIET)
++#    endif()
+     
+-    if(${bse_FOUND})
++    if(0)
+         message(STATUS "${Cyan}Found bse${ColourReset}: ${PY_bse} (found version ${bse_VERSION})")
+         add_library(bse_external INTERFACE)  # dummy
+     
+diff -rup a/external/upstream/cppe/CMakeLists.txt b/external/upstream/cppe/CMakeLists.txt
+--- a/external/upstream/cppe/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/cppe/CMakeLists.txt	2023-04-07 11:56:04.603236237 +0900
+@@ -1,10 +1,10 @@
+ if(${ENABLE_cppe})
+-    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_cppe}))
+-        include(FindPythonModule)
+-        find_python_module(cppe ATLEAST 0.3.1 QUIET)
+-    endif()
++#    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_cppe}))
++#        include(FindPythonModule)
++#        find_python_module(cppe ATLEAST 0.3.1 QUIET)
++#    endif()
+ 
+-    if(${cppe_FOUND})
++    if(0)
+         message(STATUS "${Cyan}Found cppe${ColourReset}: ${PY_cppe} (found version ${cppe_VERSION})")
+         add_library(cppe_external INTERFACE)  # dummy
+     else()
+diff -rup a/external/upstream/ddx/CMakeLists.txt b/external/upstream/ddx/CMakeLists.txt
+--- a/external/upstream/ddx/CMakeLists.txt	2023-04-07 10:53:56.661065750 +0900
++++ b/external/upstream/ddx/CMakeLists.txt	2023-04-07 11:56:17.955304348 +0900
+@@ -1,10 +1,10 @@
+ if(${ENABLE_ddx})
+-    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_ddx}))
+-        include(FindPythonModule)
+-        find_python_module(pyddx ATLEAST 0.4.2 QUIET)
+-    endif()
++#    if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_ddx}))
++#        include(FindPythonModule)
++#        find_python_module(pyddx ATLEAST 0.4.2 QUIET)
++#    endif()
+ 
+-    if(${pyddx_FOUND})
++    if(0)
+         message(STATUS "${Cyan}Found ddx${ColourReset}: ${PY_pyddx} (found version ${pyddx_VERSION})")
+         add_library(ddx_external INTERFACE)  # dummy
+ 
+diff -rup a/external/upstream/optking/CMakeLists.txt b/external/upstream/optking/CMakeLists.txt
+--- a/external/upstream/optking/CMakeLists.txt	2023-04-07 10:53:56.663065762 +0900
++++ b/external/upstream/optking/CMakeLists.txt	2023-04-07 11:58:24.897951883 +0900
+@@ -1,9 +1,9 @@
+-if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_optking}))
+-    include(FindPythonModule)
+-    find_python_module(optking ATLEAST 0.2.1 QUIET)
+-endif()
++#if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_optking}))
++#    include(FindPythonModule)
++#    find_python_module(optking ATLEAST 0.2.1 QUIET)
++#endif()
+ 
+-if(${optking_FOUND})
++if(0)
+     message(STATUS "${Cyan}Found optking${ColourReset}: ${PY_optking} (found version ${optking_VERSION})")
+     add_library(optking_external INTERFACE)  # dummy
+ 
+diff -rup a/external/upstream/qcelemental/CMakeLists.txt b/external/upstream/qcelemental/CMakeLists.txt
+--- a/external/upstream/qcelemental/CMakeLists.txt	2023-04-07 10:53:56.664065768 +0900
++++ b/external/upstream/qcelemental/CMakeLists.txt	2023-04-07 11:59:26.962268496 +0900
+@@ -1,9 +1,9 @@
+-if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcelemental}))
+-    include(FindPythonModule)
+-    find_python_module(qcelemental ATLEAST 0.24.0 QUIET)
+-endif()
++#if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcelemental}))
++#    include(FindPythonModule)
++#    find_python_module(qcelemental ATLEAST 0.24.0 QUIET)
++#endif()
+ 
+-if(${qcelemental_FOUND})
++if(0)
+     message(STATUS "${Cyan}Found qcelemental${ColourReset}: ${PY_qcelemental} (found version ${qcelemental_VERSION})")
+     add_library(qcelemental_external INTERFACE)  # dummy
+ 
+diff -rup a/external/upstream/qcengine/CMakeLists.txt b/external/upstream/qcengine/CMakeLists.txt
+--- a/external/upstream/qcengine/CMakeLists.txt	2023-04-07 10:53:56.664065768 +0900
++++ b/external/upstream/qcengine/CMakeLists.txt	2023-04-07 11:59:39.204330941 +0900
+@@ -1,9 +1,9 @@
+-if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcengine}))
+-    include(FindPythonModule)
+-    find_python_module(qcengine ATLEAST 0.26.0 QUIET)
+-endif()
++#if(NOT (${CMAKE_DISABLE_FIND_PACKAGE_qcengine}))
++#    include(FindPythonModule)
++#    find_python_module(qcengine ATLEAST 0.26.0 QUIET)
++#endif()
+ 
+-if(${qcengine_FOUND})
++if(0)
+     message(STATUS "${Cyan}Found qcengine${ColourReset}: ${PY_qcengine} (found version ${qcengine_VERSION})")
+     add_library(qcengine_external INTERFACE)  # dummy
+ 

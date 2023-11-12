@@ -1,0 +1,215 @@
+diff --git a/Makefile b/Makefile
+index 5433cfa..1019ad8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -1,7 +1,7 @@
+ # Makefile for D3Q
+ # Adapted from TDDFPT main Makefile
+ 
+-SUBDIRS = src lapackified distributed thermal2  
++SUBDIRS = src minpack/lapackified minpack/distributed thermal2  
+ OPTDIRS = tools
+ 
+ default: all
+diff --git a/src/Makefile b/src/Makefile
+index 119cfbc..ab01bf9 100644
+--- a/src/Makefile
++++ b/src/Makefile
+@@ -55,6 +55,7 @@ efermi_shift.o \
+ gen_dpdvp.o \
+ h_psiq.o \
+ incdrhoscf2.o \
++phonon_setlocq.o \
+ print_clock_d3.o \
+ qstar_d3.o \
+ rhodq123v.o \
+diff --git a/src/efermi_shift.f90 b/src/efermi_shift.f90
+index 436eef5..0a510bd 100644
+--- a/src/efermi_shift.f90
++++ b/src/efermi_shift.f90
+@@ -97,7 +97,7 @@ SUBROUTINE set_efsh (drhoscf, imode0, irr, npe)
+      IF (gg(1) < eps8) delta_n = omega * drhoscf (dfftp%nl(1), ipert)
+      call mp_sum ( delta_n, intra_pool_comm )
+ #else
+-     delta_n = omega * drhoscf(dfftp%l(1), ipert)
++     delta_n = omega * drhoscf(dfftp%nl(1), ipert)
+ #endif
+ !      print*, ipert, delta_n, dos_ef, drhoscf (nl(1), ipert)
+      def(ipert) = - delta_n/dos_ef
+diff --git a/src/make.libs b/src/make.libs
+index d10b9ce..69d86dd 100644
+--- a/src/make.libs
++++ b/src/make.libs
+@@ -8,6 +8,7 @@ MODULES = \
+ ../../Modules/cell_base.o \
+ ../../Modules/check_stop.o \
+ ../../Modules/clocks.o \
++../../Modules/constants.o \
+ ../../Modules/constraints_module.o \
+ ../../Modules/control_flags.o \
+ ../../Modules/descriptors.o \
+@@ -93,7 +94,6 @@ PHOBJS = \
+ ../../PHonon/PH/set_irr_sym.o \
+ ../../PHonon/PH/set_irr.o \
+ ../../PHonon/PH/set_small_group_of_q.o \
+-../../PHonon/PH/setlocq.o \
+ ../../PHonon/PH/setqmod.o \
+ ../../PHonon/PH/setup_dgc.o \
+ ../../PHonon/PH/smallgq.o \
+@@ -133,6 +133,7 @@ PWOBJS = \
+ ../../PW/src/compute_rho.o \
+ ../../PW/src/compute_ux.o \
+ ../../PW/src/coset.o \
++../../PW/src/Coul_cut_2D.o \
+ ../../PW/src/data_structure.o \
+ ../../PW/src/divide_class.o \
+ ../../PW/src/divide_class_so.o \
+diff --git a/src/phonon_setlocq.f90 b/src/phonon_setlocq.f90
+new file mode 100644
+index 0000000..e52b192
+--- /dev/null
++++ b/src/phonon_setlocq.f90
+@@ -0,0 +1,143 @@
++!
++! Copyright (C) 2001-2009 Quantum ESPRESSO group
++! This file is distributed under the terms of the
++! GNU General Public License. See the file `License'
++! in the root directory of the present distribution,
++! or http://www.gnu.org/copyleft/gpl.txt .
++!
++!
++!----------------------------------------------------------------------
++subroutine setlocq( xq, mesh, msh, rab, r, vloc_at, zp, tpiba2, ngm, &
++                    g, omega, vloc )
++  !----------------------------------------------------------------------
++  !! This routine computes the Fourier transform of the local
++  !! part of the pseudopotential in the q+G vectors.
++  !
++  !! The local pseudopotential of the US case is always in
++  !! numerical form, expressed in Ry units.
++  !
++  USE kinds, only  : DP
++  USE constants, ONLY : e2, fpi, pi
++  USE Coul_cut_2D, ONLY: do_cutoff_2D
++  !
++  implicit none
++  !
++  integer :: ngm
++  !! input: the number of G vectors
++  integer :: mesh
++  !! input: the dimensions of the mesh
++  integer :: msh
++  !! input: mesh points for radial integration
++  real(DP) :: xq(3)
++  !! input: the q point
++  real(DP) :: zp
++  !! input: valence pseudocharge
++  real(DP) :: rab(mesh)
++  !! input: the derivative of mesh points
++  real(DP) :: r(mesh)
++  !! input: the mesh points
++  real(DP) :: vloc_at(mesh)
++  !! input: the pseudo on the radial
++  real(DP) :: tpiba2
++  !! input: 2 pi / alat
++  real(DP) :: omega
++  !! input: the volume of the unit cell
++  real(DP) :: g(3,ngm)
++  !! input: the g vectors coordinates
++  real(DP) :: vloc(ngm)
++  !! output: the fourier transform of the potential
++  !
++  ! ... local variables
++  !
++  real(DP), parameter :: eps = 1.d-8
++  real(DP) :: vlcp, vloc0, fac, g2a, aux (mesh), &
++       aux1 (mesh), gx
++  ! auxiliary variables
++  ! gx = modulus of g vectors
++  integer :: ig, ir
++  ! counters
++  !
++  ! Pseudopotentials in numerical form (Vnl(lloc) contain the local part)
++  ! in order to perform the Fourier transform, a term erf(r)/r is
++  ! subtracted in real space and added again in G space
++  !
++  ! first the G=0 term
++  !
++  ! 
++  IF (do_cutoff_2D) THEN
++     do ir = 1, msh
++        aux (ir) = r (ir) * (r (ir) * vloc_at (ir) + zp * e2    &
++                   * erf (r (ir) ) )
++     enddo
++  ELSE
++      do ir = 1, msh
++         aux (ir) = r (ir) * (r (ir) * vloc_at (ir) + zp * e2)
++      enddo
++  ENDIF
++  ! 
++  call simpson (msh, aux, rab, vloc0)
++  !
++  !   here the G<>0 terms, we first compute the part of the integrand func
++  !   indipendent of |G| in real space
++  !
++  do ir = 1, msh
++     aux1 (ir) = r (ir) * vloc_at (ir) + zp * e2 * erf (r (ir) )
++  enddo
++  fac = zp * e2 / tpiba2
++  !
++  !    and here we perform the integral, after multiplying for the |G|
++  !    dependent  part
++  !
++  do ig = 1, ngm
++     g2a = (xq (1) + g (1, ig) ) **2 + (xq (2) + g (2, ig) ) **2 + &
++          (xq (3) + g (3, ig) ) **2
++     if (g2a < eps) then
++        vloc (ig) = vloc0
++     else
++        gx = sqrt (g2a * tpiba2)
++        do ir = 1, msh
++           aux (ir) = aux1 (ir) * sin (gx * r (ir) ) / gx
++        enddo
++        call simpson (msh, aux, rab, vlcp)
++        !
++        !     here we add the analytic fourier transform of the erf function
++        !
++        !  if 2D cutoff calculation, do not re-add the FT of erf function
++        IF (.not. do_cutoff_2D) vlcp = vlcp - fac * exp ( - g2a * tpiba2 * 0.25d0) / g2a
++        vloc (ig) = vlcp
++     endif
++  enddo
++
++  vloc(:) = vloc(:) * fpi / omega
++
++  return
++end subroutine setlocq
++
++!----------------------------------------------------------------------
++subroutine setlocq_coul (xq, zp, tpiba2, ngm, g, omega, vloc)
++ !----------------------------------------------------------------------
++ !! Fourier transform of the Coulomb potential - For all-electron
++ !! calculations, in specific cases only, for testing purposes.
++ !
++ USE kinds, ONLY: DP
++ USE constants, ONLY : fpi, e2, eps8
++ implicit none
++ !
++ integer, intent(in) :: ngm
++ real(DP) :: xq (3), zp, tpiba2, omega, g(3,ngm)
++ real(DP), intent (out) :: vloc(ngm)
++ !
++ real(DP) :: g2a
++ integer :: ig
++
++ do ig = 1, ngm
++  g2a = (xq (1) + g (1, ig) ) **2 + (xq (2) + g (2, ig) ) **2 + &
++        (xq (3) + g (3, ig) ) **2
++  if (g2a < eps8) then
++       vloc (ig) = 0.d0
++  else
++       vloc (ig) = - fpi * zp *e2 / omega / tpiba2 / g2a
++  endif
++ enddo
++
++end subroutine setlocq_coul

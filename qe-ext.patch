@@ -1,0 +1,140 @@
+diff --git a/external/mbd.make b/external/mbd.make
+index 600b659f9..a223ed236 100644
+--- a/external/mbd.make
++++ b/external/mbd.make
+@@ -5,7 +5,7 @@
+ %.o: %.F90
+ 	$(FXX) $(FXXOPT)  -c $<
+ 
+-OBJS := mbd.o mbd_c_api.o mbd_constants.o mbd_coulomb.o mbd_damping.o mbd_dipole.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_hamiltonian.o mbd_lapack.o mbd_linalg.o mbd_matrix.o mbd_methods.o mbd_rpa.o mbd_scs.o mbd_ts.o mbd_utils.o mbd_vdw_param.o
++OBJS := mbd.o mbd_c_api.o mbd_constants.o mbd_coulomb.o mbd_damping.o mbd_defaults.o mbd_density.o mbd_dipole.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_hamiltonian.o mbd_lapack.o mbd_linalg.o mbd_matrix.o mbd_methods.o mbd_rpa.o mbd_scs.o mbd_ts.o mbd_utils.o mbd_vdw_param.o mbd_version.o
+ ifeq ($(LIBMBD_C_API),0)
+ OBJS := $(filter-out mbd_c_api.o,$(OBJS))
+ endif
+@@ -14,31 +14,32 @@ libmbd.a: $(OBJS)
+ 	ar -r $@ $^
+ 
+ 
+-mbd.o: mbd_constants.o mbd_damping.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_methods.o mbd_ts.o mbd_utils.o mbd_vdw_param.o fallback_version
+-mbd_c_api.o: mbd_constants.o mbd_coulomb.o mbd_damping.o mbd_dipole.o mbd_geom.o mbd_gradients.o mbd_matrix.o mbd_methods.o mbd_ts.o mbd_utils.o
++mbd.o: mbd_constants.o mbd_defaults.o mbd_damping.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_methods.o mbd_ts.o mbd_utils.o mbd_vdw_param.o mbd_version.o
++#mbd_blacs.o: mbd_constants.o
++mbd_c_api.o: mbd_constants.o mbd_coulomb.o mbd_damping.o mbd_dipole.o mbd_density.o mbd_geom.o mbd_gradients.o mbd_matrix.o mbd_methods.o mbd_ts.o mbd_utils.o mbd_version.o
+ mbd_constants.o: 
+ mbd_coulomb.o: mbd_constants.o mbd_damping.o mbd_dipole.o mbd_geom.o mbd_lapack.o mbd_linalg.o mbd_matrix.o
+-mbd_damping.o: mbd_constants.o mbd_gradients.o mbd_utils.o
++mbd_damping.o: mbd_constants.o mbd_defaults.o mbd_gradients.o mbd_utils.o
++mbd_defaults.o: mbd_constants.o
++mbd_density.o: mbd_constants.o mbd_geom.o mbd_lapack.o mbd_linalg.o
+ mbd_dipole.o: mbd_constants.o mbd_damping.o mbd_geom.o mbd_gradients.o mbd_lapack.o mbd_linalg.o mbd_matrix.o mbd_utils.o
++mbd_elsi.o: mbd_blacs.o mbd_constants.o mbd_utils.o
+ mbd_formulas.o: mbd_constants.o mbd_gradients.o mbd_utils.o
+-mbd_geom.o: mbd_constants.o mbd_lapack.o mbd_utils.o mbd_vdw_param.o
++mbd_geom.o: mbd_constants.o mbd_defaults.o mbd_formulas.o mbd_gradients.o mbd_lapack.o mbd_utils.o mbd_vdw_param.o
+ mbd_gradients.o: mbd_constants.o
+ mbd_hamiltonian.o: mbd_constants.o mbd_damping.o mbd_dipole.o mbd_geom.o mbd_gradients.o mbd_matrix.o mbd_utils.o
+ mbd_lapack.o: mbd_constants.o mbd_utils.o
+ mbd_linalg.o: mbd_constants.o
+ mbd_matrix.o: mbd_constants.o mbd_lapack.o mbd_utils.o
+ mbd_methods.o: mbd_constants.o mbd_damping.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_hamiltonian.o mbd_lapack.o mbd_rpa.o mbd_scs.o mbd_utils.o
++#mbd_mpi.o: 
+ mbd_rpa.o: mbd_constants.o mbd_damping.o mbd_dipole.o mbd_formulas.o mbd_geom.o mbd_matrix.o mbd_utils.o
++#mbd_scalapack.o: mbd_blacs.o mbd_constants.o mbd_lapack.o mbd_utils.o
+ mbd_scs.o: mbd_constants.o mbd_damping.o mbd_dipole.o mbd_formulas.o mbd_geom.o mbd_gradients.o mbd_matrix.o mbd_utils.o
+-mbd_ts.o: mbd_constants.o mbd_damping.o mbd_geom.o mbd_utils.o
++mbd_ts.o: mbd_constants.o mbd_damping.o mbd_geom.o mbd_gradients.o mbd_lapack.o mbd_utils.o
+ mbd_utils.o: mbd_constants.o mbd_gradients.o
+ mbd_vdw_param.o: mbd_constants.o mbd_utils.o
+-
+-fallback_version:
+-	echo '#define MBD_VERSION_MAJOR 0'  > version.h
+-	echo '#define MBD_VERSION_MINOR 10'>> version.h
+-	echo '#define MBD_VERSION_PATCH 0' >> version.h
+-	echo '#define MBD_VERSION "0.10.0"' >> version.h
++mbd_version.o: 
+ 
+ .PHONY: clean distclean
+ clean:
+diff --git a/install/plugins_makefile b/install/plugins_makefile
+index 33108be1a..82d395994 100644
+--- a/install/plugins_makefile
++++ b/install/plugins_makefile
+@@ -12,6 +12,21 @@ sinclude ../make.inc
+ include plugins_list
+ include install_utils
+ 
++MACHINE := $(shell uname -m)
++ifeq ($(MACHINE), x86_64)
++libdir = lib64
++else ifeq ($(MACHINE), i686)
++libdir = lib
++endif
++
++ifeq ($(MPI_FORTRAN_MOD_DIR),)
++hdf5_mod = /usr/$(libdir)/gfortran/modules
++hdf5_lib = /usr/$(libdir)
++else
++hdf5_mod = $(MPI_FORTRAN_MOD_DIR)
++hdf5_lib = $(MPI_LIB)
++endif
++
+ ###########################################################
+ # D3Q
+ ###########################################################
+@@ -62,7 +77,7 @@ uncompress-gipaw:
+ 
+ configure-gipaw: 
+ 	cd ../GIPAW ; \
+-	./configure --with-qe-source=${TOPDIR}
++	./configure --disable-rpath --with-qe-source=${TOPDIR}
+ 	touch ./configure-gipaw
+ 
+ gipaw_clean:
+@@ -117,7 +132,7 @@ uncompress-want:
+ 
+ configure-want:
+ 	cd ../WANT ; \
+-	./configure \
++	./configure --disable-rpath \
+ 	CC="$(CC)" \
+ 	F90="$(F90)" \
+ 	MPIF90="$(MPIF90)" \
+@@ -150,8 +165,6 @@ want_distclean:
+ ###########################################################
+ 
+ yambo: uncompress-yambo configure-yambo
+-	if test -d ../YAMBO; then \
+-	cd ../YAMBO; $(MAKE) yambo interfaces ypp || exit 1; fi
+ 	touch ./make-yambo
+ 
+ uncompress-yambo: 
+@@ -161,15 +174,26 @@ uncompress-yambo:
+ configure-yambo: 
+ 	@(if test -z "$(F90)" ; then \
+ 	echo "*** F90 is not defined; please define F90 or edit make.inc" ; exit 1 ; fi)
+-	cd ../YAMBO ; \
+-	./configure \
++	cd .. ; \
++	export HDF5_PATH=$(pwd)/hdf5 ; \
++	cd YAMBO ; \
++	./configure --enable-etsf-io --enable-iotk \
+ 	 --with-blas-libs="$(BLAS_LIBS)" \
+ 	 --with-lapack-libs="$(LAPACK_LIBS) $(BLAS_LIBS)" \
+ 	 --with-fft-libs="$(FFT_LIBS)" \
+ 	 --with-scalapack-libs="$(SCALAPACK_LIBS)" \
+ 	 --with-blacs-libs="$(SCALAPACK_LIBS)" \
++	 --with-libxc-libs="-L/usr/$(libdir) -lxcf03 -lxcf90 -lxc -I/usr/$(libdir)/gfortran/modules" \
++	 --with-libxc-libdir="/usr/$(libdir)" --with-libxc-includedir="/usr/$(libdir)/gfortran/modules" \
++	 --with-hdf5-libs="-L$(HDF5_PATH)/$(libdir) -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5 -I$(HDF5_PATH)/include" \
++	 --with-hdf5-libdir="$(HDF5_PATH)/$(libdir)" --with-hdf5-includedir="$(HDF5_PATH)/include" \
++	 LIBXC_INCS="-I/usr/$(libdir)/gfortran/modules" \
++	 HDF5_INCS="-I$(HDF5_PATH)/include" \
+ 	 PFC="$(MPIF90)" \
+-	 FC="$(F90)"
++	 FC="$(F90)" \
++	 FFLAGS="$(FFLAGS) -I$(libdir)/gfortran/modules -I$(HDF5_PATH)/include" \
++	 FCFLAGS="$(FCFLAGS) -I$(libdir)/gfortran/modules -I$(HDF5_PATH)/include" \
++	 LDFLAGS="$(LDFLAGS) -L$(libdir) -lxcf03 -lxcf90 -lxc -L$(HDF5_PATH)/$(libdir) -lhdf5hl_fortran -lhdf5_hl -lhdf5_fortran -lhdf5"
+ 	touch ./configure-yambo
+ 
+ yambo_clean:

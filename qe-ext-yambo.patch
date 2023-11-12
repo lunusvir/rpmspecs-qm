@@ -1,0 +1,118 @@
+diff --git a/lib/archive/Makefile.loc b/lib/archive/Makefile.loc
+index e4c142742..4be0aa8cd 100644
+--- a/lib/archive/Makefile.loc
++++ b/lib/archive/Makefile.loc
+@@ -17,7 +17,8 @@ all: $(EXT_LIBS)
+ # Libraries (GIT + archives)
+ #
+ Ydriver:
+-	@+URL="$(url_Ydriver)"  ;  GBRANCH="$(branch_Ydriver)"  ;  GIT="$(git_Ydriver)"; LIB="$(pkgname_Ydriver)"; $(call getsrc_git,"Ydriver"); $(call copy_driver,"Ydriver")
++	@+URL="$(url_Ydriver)"  ; LIB="$(pkgname_Ydriver)"; $(getsrc); $(call copy_driver,"Ydriver")
++#	@+URL="$(url_Ydriver)"  ;  GBRANCH="$(branch_Ydriver)"  ;  GIT="$(git_Ydriver)"; LIB="$(pkgname_Ydriver)"; $(call getsrc_git,"Ydriver"); $(call copy_driver,"Ydriver")
+ #
+ # Libraries (archives)
+ #
+@@ -88,20 +89,7 @@ clean_tgz:
+ 	fi
+ #
+ define getsrc
+- if test ! -s $$LIB".tar.gz" ; then \
+-  echo "\t[$$LIB] download";\
+-  if ! test -d  ../../log; then mkdir ../../log; fi; \
+-  if [ -x $(shell which wget) ] && [ "$(shell which wget)" != "" ] ; then \
+-   wget $(WGETFLAGS) -O $$LIB".tar.gz" $$URL > ../../log/download_$$LIB.log 2>&1; \
+-  elif [ -x $(shell which curl) ] && [ "$(shell which curl)" != "" ] ; then \
+-   curl -L --progress-bar -o $$LIB".tar.gz" $$URL > ../../log/download_$$LIB.log 2>&1 ; \
+-  fi ; \
+-  if test ! -s $$LIB".tar.gz" ; then \
+-   echo "*** Unable to download $$LIB. Test whether curl or wget is installed and working," ; \
+-   echo "*** if you have direct access to the internet." ; \
+-   echo "*** If not, copy $$LIB".tar.gz" into extlibs/archive/" ; \
+-  fi; \
+- fi
++ echo "\t[$$LIB] download"
+ endef
+ #
+ define getsrc_git
+diff --git a/lib/archive/package.list b/lib/archive/package.list
+index 0bb67a9a4..e628477fc 100644
+--- a/lib/archive/package.list
++++ b/lib/archive/package.list
+@@ -32,7 +32,7 @@ version_netcdff=4.6.0
+ version_pnetcdf=1.12.1
+ version_hdf5=1.12.2
+ version_etsf_io=1.0.4
+-version_libxc=5.2.3
++version_libxc=6.2.2
+ version_lapack=3.9.1
+ version_blacs=missing
+ version_scalapack=2.2.1
+diff --git a/lib/config/external_libs_commons.mk b/lib/config/external_libs_commons.mk
+index 185dd01a7..988bd53a8 100644
+--- a/lib/config/external_libs_commons.mk
++++ b/lib/config/external_libs_commons.mk
+@@ -17,7 +17,9 @@ if ! test -e configured.stamp && test -d $(PACKAGE); then \
+  echo "\t[$(PACKAGE)] configuration"; \
+  rm -f ${compdir}/log/config_$(PACKAGE).log; \
+  CWD=`pwd`;\
+- cd $(PACKAGE);  ./configure $(CONFFLAGS) >> ${compdir}/log/config_$(PACKAGE).log 2>&1 ; \
++ cd $(PACKAGE);\
++ if ! test -e configure; then autoreconf -i; fi;\
++ ./configure $(CONFFLAGS) >> ${compdir}/log/config_$(PACKAGE).log 2>&1 ; \
+  touch $$CWD/configured.stamp;\
+ fi
+ endef
+diff --git a/lib/etsf_io/Makefile.loc b/lib/etsf_io/Makefile.loc
+index 7154f4b19..9eeda965f 100644
+--- a/lib/etsf_io/Makefile.loc
++++ b/lib/etsf_io/Makefile.loc
+@@ -19,8 +19,8 @@ include ../config/external_libs_defs.mk
+ # Flags
+ #
+ CONFFLAGS=--prefix=$(LIBPATH) --with-moduledir=$(MODPATH) \
+-         --with-netcdf-incs="$(inetcdff) $(inetcdf) $(ihdf5)" \
+-         --with-netcdf-libs="$(lnetcdff) $(lnetcdf) $(lhdf5)" 
++         --with-netcdf-incs="$(inetcdff) $(inetcdf) $(ihdf5) $(impi)" \
++         --with-netcdf-libs="$(lnetcdff) $(lnetcdf) $(lhdf5) $(lmpi)" 
+ 
+ #
+ # MAIN target
+diff --git a/lib/netcdf/Makefile.loc b/lib/netcdf/Makefile.loc
+index 11da98406..2e3157e58 100644
+--- a/lib/netcdf/Makefile.loc
++++ b/lib/netcdf/Makefile.loc
+@@ -25,7 +25,7 @@ CONFFLAGS=--prefix=$(LIBPATH) --libdir=$(LIBPATH)/lib \
+ 	  CFLAGS="$(cflags)" \
+ 	  FC="$(fc)" \
+ 	  CPPFLAGS="$(netcdf_flag) $(ihdf5) $(ipnetcdf)" \
+-	  LIBS="$(lpnetcdf) $(lhdf5)" \
++	  LIBS="$(lpnetcdf) $(lhdf5) -lzip -lz -lm" \
+ 	  F77="$(f77)"
+ # DEBUG <
+ # This option is useful for debugging netcdf4 problems
+diff --git a/lib/netcdff/Makefile.loc b/lib/netcdff/Makefile.loc
+index 89afaa4d4..4e02782a4 100644
+--- a/lib/netcdff/Makefile.loc
++++ b/lib/netcdff/Makefile.loc
+@@ -25,7 +25,7 @@ CONFFLAGS=--prefix=$(LIBPATH) --libdir=$(LIBPATH)/lib \
+ 	  CPP="$(cpp)" \
+ 	  FC="$(fc)" \
+ 	  CPPFLAGS="$(netcdf_flag) $(ihdf5) $(ipnetcdf) $(inetcdf)" \
+-	  LIBS="$(lnetcdf) $(lpnetcdf) $(lhdf5)" \
++	  LIBS="$(lnetcdf) $(lpnetcdf) $(lhdf5) -lzip -lz -lm" \
+ 	  F77="$(f77)" 
+ # DEBUG <
+ # This option is useful for debugging netcdf4 problems
+diff --git a/sbin/compilation/libraries.sh b/sbin/compilation/libraries.sh
+index 4464ccdd9..7396962b5 100755
+--- a/sbin/compilation/libraries.sh
++++ b/sbin/compilation/libraries.sh
+@@ -16,7 +16,7 @@ do
+  esac
+ done
+ #
+-llocal="-lqe_pseudo -lmath77 -lslatec -llocal"
++llocal="-lzip -lqe_pseudo -lmath77 -lslatec -llocal"
+ lPLA="\$(lscalapack) \$(lblacs) \$(llapack) \$(lblas)"
+ lSL="\$(lslepc) \$(lpetsc)"
+ lIO="\$(liotk) \$(letsf) \$(lpnetcdf) \$(lnetcdff) \$(lnetcdf) \$(lhdf5)"
